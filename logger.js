@@ -54,7 +54,7 @@ module.exports.Level = Level;
 function log(type, message) {
   if (logLevel <= LevelMap[type]) {
     let timestamp = Date.now()
-    let content = getContent(message)
+    let content = message
     switch (type) {
       case Level.ERROR: {
         return console.error(`${getTimeStamp(timestamp)} ${chalk.bgRed(type.toUpperCase())} ${content}`);

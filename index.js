@@ -13,7 +13,7 @@ const redisOpts = {
     port: process.env.REDIS_PORT
   }
 }
-if(process.env.REDIS_PASS) redisOpts.socket.passwd = process.env.REDIS_PASS
+if(process.env.REDIS_PASS) redisOpts.password = process.env.REDIS_PASS
 const redis = NodeRedis.createClient(redisOpts)
 redis.on('error', err=>{
   log.error(`redis client error ${err}`)
@@ -34,7 +34,6 @@ redis.on('ready', ()=>{
 })
 const StartClient = async()=>{
   try{
-    await redis.connect()
     let status = await redis.ping()
     if(status === 'PONG'){
       redisReady = true
@@ -42,10 +41,11 @@ const StartClient = async()=>{
     }
     setTimeout(StartClient, 5000)
   }catch(e){
-    log.error(e)
+    log.error(e);
     setTimeout(StartClient, 5000)
   }
 }
+redis.connect()
 StartClient()
 Cmds.bpull = async(key)=>{
   try{
