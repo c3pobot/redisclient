@@ -34,7 +34,7 @@ redis.on('ready', ()=>{
 })
 const StartClient = async()=>{
   try{
-    await redis.init()
+    await redis.connect()
     let status = await redis.ping()
     if(status === 'PONG'){
       redisReady = true
